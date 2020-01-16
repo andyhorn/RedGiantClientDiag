@@ -65,7 +65,7 @@ class LicenseFile:
                 self.ports.append(cc_port)
                 self.ports.append(web_port)
                 self.correct_permissions = True
-                if ISV_PORT != 0:
+                if ISV_PORT != 0 and ISV_PORT != None:
                     isv = TcpPort(self.host, ISV_PORT)
                     self.ports.append(isv)
                 return True
@@ -307,7 +307,10 @@ if (len(sys.argv) > 1):
     except ValueError:
         pass
     finally:
-        ISV_PORT = port_num
+        if port_num is not None:
+            ISV_PORT = port_num
+        else:
+            ISV_PORT = 0
 
 # Execute the script
 tester = TestEngine()

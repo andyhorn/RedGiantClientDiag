@@ -1,0 +1,20 @@
+Thank you for using the Red Giant client-side diagnostic tool!
+Please contact volumesupport@redgiant.com if you have any questions or concerns.
+These test results have been written to C:\Projects\RedGiantClientDiag\results.txt
+---------------------------------------------------------------------------
+
+
+Client hostname: ANDY-SFCBOOK
+Licenses directory found!
+Directory contents:
+C:\ProgramData\Red Giant\licenses\redgiant-client.primary.lic
+
+License file: C:\ProgramData\Red Giant\licenses\redgiant-client.primary.lic
+This file is in the correct location!
+
+Test Results
+Server            Port      Accessible
+--------------------------------------
+18.222.133.38     5053      True      
+18.222.133.38     5054      True      
+--------------------------------------
