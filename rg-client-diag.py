@@ -16,6 +16,19 @@ OUTPUT_FILENAME = "results.txt"
 SOCKET_TIMEOUT_SECONDS = 3
 
 # Output formatting
+def output_format(address):
+    return "%-" + str(len(address) + 3) + "s%-10s%-10s"
+
+
+def header(address):
+    return str(output_format(address)) % ("Server", "Port", "Accessible")
+
+
+def border(address):
+    return ''.join(['-' * len(header(address))])
+
+
+
 OUTPUT_FORMAT = "%-18s%-10s%-10s"
 HEADER = OUTPUT_FORMAT % ("Server", "Port", "Accessible")
 BORDER = ''.join(['-' * len(HEADER)])
@@ -158,8 +171,6 @@ class TestEngine:
         return contents
 
     # If a "results.txt" file already exists, this will empty it
-    # primarily for testing, but also helps keep things clean if
-    # they run the script multiple times
     def init_file(self):
         try:
             # Open the file and clear its contents
@@ -177,7 +188,10 @@ class TestEngine:
     # Get the license directory path based on the current operating system
     @staticmethod
     def get_file_path(self):
-        return WIN_LOCATION if platform.system().lower() == "windows" else MAC_LOCATION
+        if platform.system().lower() == "windows":
+            return WIN_LOCATION
+        else:
+            return MAC_LOCATION
 
     # Make the full path for a filename in the directory housing this script
     @staticmethod
@@ -231,10 +245,10 @@ class TestEngine:
 
     # Writes all the test results to the console and to the logger's file
     def write_results(self):
-        self.logger.log("Thank you for using the Red Giant client-side diagnostic tool!")
+        self.logger.log("\nThank you for using the Red Giant Client Diagnostic Tool!")
         self.logger.log("Please contact volumesupport@redgiant.com if you have any questions or concerns.")
         self.logger.log("These test results have been written to %s" % self.file)
-        self.logger.log('-' * 75)
+        self.logger.log('-' * 85)
         # Log the client hostname
         self.logger.log("\n\nClient hostname: %s" % self.get_client_hostname(self))
         # Log if the client license directory was present
@@ -260,13 +274,13 @@ class TestEngine:
                         self.logger.log("This file is in the correct location!")
                     if lic.correct_permissions:
                         self.logger.log("\nTest Results")
-                        self.logger.log(HEADER)
-                        self.logger.log(BORDER)
+                        self.logger.log(header(lic.ports[0].address))
+                        self.logger.log(border(lic.ports[0].address))
                         # Loop through the ports in the list and output their
                         # data and test results, piped through the formatter
                         for port in lic.ports:
-                            self.logger.log(OUTPUT_FORMAT % (port.address, port.port, str(port.is_accessible)))
-                        self.logger.log(BORDER)
+                            self.logger.log(output_format(port.address) % (port.address, port.port, str(port.is_accessible)))
+                        self.logger.log(border(lic.ports[0].address))
                     else:
                         self.logger.log("Unable to open this file - Please check permissions")
             else:
